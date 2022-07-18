@@ -61,7 +61,7 @@
           </c-col>
 
           <c-col xs="12" class="mb-2">
-            <button cButton class="me-4"type="submit" color="success">Ajouter</button>
+            <button cButton class="me-4"type="submit" color="success">{{isModifier?"Modifier" : "Ajouter"}}</button>
 
             <button (click)="onReset1()" cButton color="secondary">
               Réinitialiser
@@ -105,7 +105,7 @@
 
         <td>
           <div class="d-flex justify-content-around ">
-            <button cButton class="mb-3 " color="dark" size="sm">Modifier</button>
+            <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
             <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
           </div>
 

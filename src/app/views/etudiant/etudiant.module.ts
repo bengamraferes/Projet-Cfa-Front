@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { EtudiantRoutingModule } from './etudiant-routing.module';
 import {
   AvatarModule,
   ButtonGroupModule,
@@ -17,15 +17,18 @@ import {
   TabsModule
 } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
-import { UtilisateurRoutingModule } from './utilisateur-routing.module'
 import { WidgetsModule } from '../widgets/widgets.module';
-import { UtilisateurComponent } from './utilisateur.component';
+
 import { NgxPaginationModule } from 'ngx-pagination';
-import { YesNoPipe } from 'src/app/utils/yes-no.pipe';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EtudiantComponent } from './etudiant.component';
+
 
 @NgModule({
+  declarations: [EtudiantComponent],
   imports: [
-    UtilisateurRoutingModule,
+    CommonModule,
+    EtudiantRoutingModule,
     CardModule,
     NavModule,
     IconModule,
@@ -45,10 +48,9 @@ import { YesNoPipe } from 'src/app/utils/yes-no.pipe';
     PaginationModule,
     NgxPaginationModule,
     FormsModule,
-    ReactiveFormsModule,
-    
-  ],
-  declarations: [UtilisateurComponent,YesNoPipe]
+    ReactiveFormsModule
+  
+  ]
+ 
 })
-export class UtilisateurModule {
-}
+export class EtudiantModule { }

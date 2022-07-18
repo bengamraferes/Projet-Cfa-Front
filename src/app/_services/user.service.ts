@@ -1,13 +1,10 @@
 import { environment } from './../../environments/environment';
 import { User } from './../_models/user';
-import { LoginResponse } from '../_models/loginResponse';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, catchError, map, Observable ,throwError } from "rxjs";
-import{httpHeaders} from "../_helpers/request.options"
+import { catchError, map ,throwError } from "rxjs";
 @Injectable({ providedIn: 'root' }) //@Service , ce service va pouvoir être injecté dans les différents composants
 export class UserService {
-
 
   private httpHeaders = {
     headers: new HttpHeaders({
@@ -34,20 +31,23 @@ export class UserService {
 
   getAll(page: number, size: number, search: string) {
 
-    return this.httpClient.get<User[]>(`${environment.apiUrl}/utilisateurs/${page}/${size}/${search}`);
+    return this.httpClient.get<User[]>(`${environment.apiUrl}/utilisateurs/${page}/${size}/${search}`,this.httpHeaders);
   }
+  getByRole( role: string) {
 
+    return this.httpClient.get<User[]>(`${environment.apiUrl}/utilisateurs/role/${role}`,this.httpHeaders);
+  }
   findById(id: number) {
-    return this.httpClient.get<any>(`${environment.apiUrl}/utilisateurs/${id}`)
+    return this.httpClient.get<any>(`${environment.apiUrl}/utilisateurs/${id}`,this.httpHeaders)
       .pipe(map(userFound => { return userFound; }));
   }
 
   countUsers(search: string) {
-    return this.httpClient.get<any>(`${environment.apiUrl}/utilisateurs/count/${search}`);
+    return this.httpClient.get<any>(`${environment.apiUrl}/utilisateurs/count/${search}`,this.httpHeaders);
   }
 
   delete(id: number) {
-    return this.httpClient.delete<void>(`${environment.apiUrl}/utilisateurs/${id}`).pipe(
+    return this.httpClient.delete<void>(`${environment.apiUrl}/utilisateurs/${id}`,this.httpHeaders).pipe(
       catchError(this.handleError)
     );
   }

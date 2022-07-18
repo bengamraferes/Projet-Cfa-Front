@@ -1,0 +1,122 @@
+<c-container>
+
+    <h3 class="text-center">
+      Utilisateurs
+    </h3>
+    <div class="align-items-end">
+      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' : 'Ajouter Utilisateur'}}</button>
+      <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
+        <c-card-body>
+          <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
+            class="row g-3 needs-validation" [formGroup]="formAddUser" (ngSubmit)="addUser()"  >
+            <c-col md="4">
+              <label cLabel for="validationCustom01">Nom</label>
+              <input cFormControl placeholder="Jean" formControlName="firstName" id="validationCustom01" required
+                type="text" />
+              <c-form-feedback [valid]="false">Merci de saisir un nom.</c-form-feedback>
+            </c-col>
+            <c-col md="4">
+              <label cLabel for="validationCustom02">Prénom</label>
+              <input cFormControl placeholder="Dupont" formControlName="lastName" id="validationCustom02" required
+                type="text" />
+              <c-form-feedback [valid]="false">Merci de saisir un Prénom.</c-form-feedback>
+            </c-col>
+            <c-col md="4">
+              <label cLabel for="validationCustomUsername">Email</label>
+              <c-input-group class="has-validation">
+                <span cInputGroupText id="inputGroupPrepend">@</span>
+                <input aria-describedby="inputGroupPrepend" cFormControl id="validationCustomUsername" required
+                  type="email" formControlName="email" />
+                <c-form-feedback [valid]="false">Merci de saisir email valid.</c-form-feedback>
+              </c-input-group>
+            </c-col>
+            <c-col md="4">
+              <label cLabel for="validationCustom03">Mot de passe</label>
+              <input cFormControl formControlName="password" type="password" id="validationCustom03" required />
+              <c-form-feedback [valid]="false">Merci de saisir un Mot de passe.</c-form-feedback>
+            </c-col>
+            <c-col md="4">
+              <label cLabel for="inputState">Role</label>
+              <select required cSelect id="inputState" formControlName="role">
+                <option value="ADMIN">Admin</option>
+                <option value="ETUDIANT">Etudiant</option>
+                <option value="FORMATEUR">Formateur</option>
+              </select>
+              <c-form-feedback [valid]="false">Merci de sélectioner un role</c-form-feedback>
+            </c-col>
+            <c-col md="4">
+              <label cLabel for="inputState">Active</label>
+              <c-input-group class="m-2">
+                <c-form-check inline>
+                  <input cFormCheckInput required formControlName="active" value="true" checked id="radioinline1"
+                    name="radioinline" type="radio" />
+                  <label cFormCheckLabel for="radioinline1">Oui</label>
+                </c-form-check>
+                <c-form-check inline>
+                  <input cFormCheckInput required value="false" id="radioinline2" name="radioinline" type="radio" />
+                  <label cFormCheckLabel for="radioinline2">Non</label>
+                </c-form-check>
+                <!-- <c-form-feedback [valid]="false">Merci de sélectioner l'activité.</c-form-feedback> -->
+              </c-input-group>
+            </c-col>
+  
+            <c-col xs="12" class="mb-2">
+              <button cButton class="me-4"type="submit" color="success">{{isModifier?"Modifier" : "Ajouter"}}</button>
+  
+              <button (click)="onReset1()" cButton color="secondary">
+                Réinitialiser
+              </button>
+            </c-col>
+            <c-col xs="12" class="mb-2">
+            </c-col>
+          </form>
+  
+        </c-card-body>
+      </c-card>
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <c-input-group>
+        <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl placeholder="Jean"
+          formControlName="search" />
+        <button cButton color="info" id="button-addon2" type="submit" variant="outline">
+          Recherche
+        </button>
+      </c-input-group>
+    </form>
+    <table [hover]="true" [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col">Nom</th>
+          <th scope="col">Prenom</th>
+          <th scope="col">Email</th>
+          <th scope="col">Role</th>
+          <th scope="col">Active</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="etudiants; else noUsers">
+        <tr
+          *ngFor="let u of etudiants | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+          <td>{{u.firstName}} </td>
+          <td>{{u.lastName}}</td>
+          <td>{{u.email}}</td>
+          <td>{{u.role | titlecase}}</td>
+          <!-- <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td> -->
+  
+          <td>
+            <div class="d-flex justify-content-around ">
+              <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
+              <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
+            </div>
+  
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noUsers>
+      <span class="text-danger">Aucun utilisateur trouvé !</span>
+    </ng-template>
+    <pagination-controls *ngIf="etudiants" (pageChange)="pageChanged($event)" previousLabel="Précédent" nextLabel="Suivant">
+    </pagination-controls>
+  
+  </c-container>

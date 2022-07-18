@@ -13,16 +13,21 @@ export const navItems: INavData[] = [
     iconComponent: { name: 'cil-user' }
   },
   {
+    name: 'Etudiants',
+    url: '/etudiants',
+    // iconComponent: { name: 'cib-haxe' }
+  },
+  {
     name: 'Interventions',
     url: '/intervention',
     linkProps: { fragment: 'someAnchor' },
-    iconComponent: { name: 'cil-briefcase' }
+    // iconComponent: { name: 'cil-briefcase' }
   },
   {
     name: 'Promotions',
     url: '/promotion',
     linkProps: { fragment: 'someAnchor' },
-    iconComponent: { name: 'cil-badge' }
+    // iconComponent: { name: 'cil-badge' }
   },
   // {
   //   name: 'Components',

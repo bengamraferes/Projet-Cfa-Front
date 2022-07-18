@@ -32,6 +32,11 @@ const routes: Routes = [
           import('./views/utilisateur/utilisateur.module').then((m) => m.UtilisateurModule)
       },
       {
+        path: 'etudiants',
+        loadChildren: () =>
+          import('./views/etudiant/etudiant.module').then((m) => m.EtudiantModule)
+      },
+      {
         path:'intervention',
       loadChildren: ( ) => 
         import('./views/intervention/intervention.module').then((m)=>m.InterventionModule )

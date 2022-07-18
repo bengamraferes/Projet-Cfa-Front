@@ -1,29 +1,29 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs';
-import { User } from '../../_models/user';
-import { UserService } from '../../_services/user.service';
+import { Etudiant } from '../../_models/etudiant';
+import { EtudiantService } from '../../_services/etudiant.service';
 
 @Component({
-  selector: 'app-utilisateur',
-  templateUrl: './utilisateur.component.html',
-  styleUrls: ['./utilisateur.component.scss']
+  selector: 'app-etudiant',
+  templateUrl: './etudiant.component.html',
+  styleUrls: ['./etudiant.component.scss']
 })
-export class UtilisateurComponent {
+export class EtudiantComponent {
 
   visible = false;
-  users!: User[];
+  etudiants!: Etudiant[];
   itemsPerPage: number;
   currentPage: number;
   totalItems: number;
   searchExpression: string;
   searchForm: FormGroup;
   formAddUser: FormGroup;
-  user : User = new User();
+  etudiant : Etudiant = new Etudiant();
   customStylesValidated = false;
   isModifier : boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private etudiantService: EtudiantService) {
 
     this.searchForm = this.formBuilder.group({
       search: ['']
@@ -34,7 +34,7 @@ export class UtilisateurComponent {
       lastName:'',
       password: '',
       email:'',
-      role: '',
+      role: 'ETUDIANT',
       active: '',
       // imagePath:''
     })
@@ -55,7 +55,7 @@ export class UtilisateurComponent {
   }
 
   getUsersList() {
-    this.userService.countUsers(this.searchExpression).pipe(first()).subscribe({
+    this.etudiantService.countUsers(this.searchExpression).pipe(first()).subscribe({
       next:(countDto)=>{
         this.totalItems = countDto.nb;
         console.log(this.totalItems)
@@ -66,8 +66,8 @@ export class UtilisateurComponent {
     
     })
 
-    this.userService.getAll(this.currentPage, this.itemsPerPage, this.searchExpression).pipe(first()).subscribe(users => {
-      this.users = users;
+    this.etudiantService.getAll(this.currentPage, this.itemsPerPage, this.searchExpression).pipe(first()).subscribe(etudiants => {
+      this.etudiants = etudiants;
     })
   }
 
@@ -83,19 +83,19 @@ export class UtilisateurComponent {
   addUser(){
     this.customStylesValidated = true;
    
-    let userTosave = Object.assign(this.user, this.formAddUser.getRawValue())
-    // userTosave = {...this.user}
-    this.userService.save(userTosave).pipe(first()).subscribe({
-      next: user =>{
-        this.users?.push(user);
-      },
-      error: err=>{
-        console.log(err)
-      }
-    })
+    // let userTosave = Object.assign(this.user, this.formAddUser.getRawValue())
+    // // userTosave = {...this.user}
+    // this.userService.save(userTosave).pipe(first()).subscribe({
+    //   next: user =>{
+    //     this.users?.push(user);
+    //   },
+    //   error: err=>{
+    //     console.log(err)
+    //   }
+    // })
   }
   delete(id:number){
-    this.userService.delete(id).subscribe({
+    this.etudiantService.delete(id).subscribe({
       next: response =>{
         console.log(response)
       },
@@ -105,7 +105,7 @@ export class UtilisateurComponent {
       
     })
   }
-  modifier( user:User){
+  modifier( user:Etudiant){
 
     this.formAddUser.setValue(
       {
@@ -134,4 +134,5 @@ export class UtilisateurComponent {
     })
     console.log('Reset... 1');
   }
+
 }
