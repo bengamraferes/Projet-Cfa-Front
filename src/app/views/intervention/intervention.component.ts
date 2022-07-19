@@ -189,9 +189,6 @@ export class InterventionComponent {
        } )
        this.visible = true;
        this.isModifier = true;
-    
-  
-    
   }
   update(){
     let interventionTosave = Object.assign(this.intrevention, this.formAddIntervention.getRawValue())

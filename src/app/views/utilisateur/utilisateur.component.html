@@ -8,7 +8,7 @@
     <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
       <c-card-body>
         <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
-          class="row g-3 needs-validation" [formGroup]="formAddUser" (ngSubmit)="addUser()"  >
+          class="row g-3 needs-validation" [formGroup]="formAddUser" (ngSubmit)="isModifier? update(): addUser()"  >
           <c-col md="4">
             <label cLabel for="validationCustom01">Nom</label>
             <input cFormControl placeholder="Jean" formControlName="firstName" id="validationCustom01" required
@@ -39,7 +39,6 @@
             <label cLabel for="inputState">Role</label>
             <select required cSelect id="inputState" formControlName="role">
               <option value="ADMIN">Admin</option>
-              <option value="ETUDIANT">Etudiant</option>
               <option value="FORMATEUR">Formateur</option>
             </select>
             <c-form-feedback [valid]="false">Merci de sélectioner un role</c-form-feedback>
@@ -104,10 +103,17 @@
         <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td>
 
         <td>
-          <div class="d-flex justify-content-around ">
+          
+          <div class="d-flex justify-content-around " *ngIf="u.role !='ETUDIANT'; else other_content ">
             <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
             <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
           </div>
+          <div *ngIf="u.role !='ETUDIANT'">
+            <a [routerLink]="['/etudiants']"></a>
+          </div>
+          <ng-template #other_content>
+            <a [routerLink]="['/etudiants']">Gestion des etudiants</a>
+          </ng-template>
 
         </td>
       </tr>

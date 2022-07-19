@@ -39,7 +39,7 @@ export class EtudiantService {
       }
     
       update(etudiant: Etudiant) {
-        return this.httpClient.put<any>(`${environment.apiUrl}/utilisateurs`, etudiant, this.httpHeaders)
+        return this.httpClient.put<any>(`${environment.apiUrl}/etudiants`, etudiant, this.httpHeaders)
           .pipe(map(savedUser => { return savedUser }));
       }
     }

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EtudiantRoutingModule } from './etudiant-routing.module';
 import {
   AvatarModule,
@@ -10,6 +9,7 @@ import {
   CollapseModule,
   FormModule,
   GridModule,
+  ModalModule,
   NavModule,
   PaginationModule,
   ProgressModule,
@@ -22,6 +22,7 @@ import { WidgetsModule } from '../widgets/widgets.module';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EtudiantComponent } from './etudiant.component';
+import { YesNoModule } from 'src/app/utils/yes-no/yes-no.module';
 
 
 @NgModule({
@@ -48,7 +49,9 @@ import { EtudiantComponent } from './etudiant.component';
     PaginationModule,
     NgxPaginationModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    YesNoModule,
+    ModalModule
   
   ]
  

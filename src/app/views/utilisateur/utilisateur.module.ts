@@ -21,7 +21,8 @@ import { UtilisateurRoutingModule } from './utilisateur-routing.module'
 import { WidgetsModule } from '../widgets/widgets.module';
 import { UtilisateurComponent } from './utilisateur.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { YesNoPipe } from 'src/app/utils/yes-no.pipe';
+import { YesNoModule } from 'src/app/utils/yes-no/yes-no.module';
+
 
 @NgModule({
   imports: [
@@ -46,9 +47,10 @@ import { YesNoPipe } from 'src/app/utils/yes-no.pipe';
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
+    YesNoModule
     
   ],
-  declarations: [UtilisateurComponent,YesNoPipe]
+  declarations: [UtilisateurComponent]
 })
 export class UtilisateurModule {
 }

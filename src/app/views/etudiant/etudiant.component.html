@@ -1,14 +1,13 @@
 <c-container>
 
     <h3 class="text-center">
-      Utilisateurs
-    </h3>
+Etudiants    </h3>
     <div class="align-items-end">
-      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' : 'Ajouter Utilisateur'}}</button>
+      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' : 'Ajouter Etudiant'}}</button>
       <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
         <c-card-body>
           <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
-            class="row g-3 needs-validation" [formGroup]="formAddUser" (ngSubmit)="addUser()"  >
+            class="row g-3 needs-validation" [formGroup]="formAddEtudiant" (ngSubmit)="addEtudiant()"  >
             <c-col md="4">
               <label cLabel for="validationCustom01">Nom</label>
               <input cFormControl placeholder="Jean" formControlName="firstName" id="validationCustom01" required
@@ -38,9 +37,7 @@
             <c-col md="4">
               <label cLabel for="inputState">Role</label>
               <select required cSelect id="inputState" formControlName="role">
-                <option value="ADMIN">Admin</option>
                 <option value="ETUDIANT">Etudiant</option>
-                <option value="FORMATEUR">Formateur</option>
               </select>
               <c-form-feedback [valid]="false">Merci de sélectioner un role</c-form-feedback>
             </c-col>
@@ -58,6 +55,14 @@
                 </c-form-check>
                 <!-- <c-form-feedback [valid]="false">Merci de sélectioner l'activité.</c-form-feedback> -->
               </c-input-group>
+            </c-col>
+            <c-col md="12">
+              <label cLabel for="inputState">Promotions</label>
+              <select cFormControl formControlName="promotionsId" required aria-label="Multiple select example" cSelect multiple sizing="lg">
+                <option *ngFor="let p of promotions" [value]="p.id">{{p.titreProfessionnelTitre + " " + p.villeNom}}</option>
+              </select>
+              <c-form-feedback [valid]="false">Merci de sélectioner un ou plusieurs promotions.</c-form-feedback>
+
             </c-col>
   
             <c-col xs="12" class="mb-2">
@@ -101,22 +106,64 @@
           <td>{{u.lastName}}</td>
           <td>{{u.email}}</td>
           <td>{{u.role | titlecase}}</td>
-          <!-- <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td> -->
+          <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td>
   
           <td>
             <div class="d-flex justify-content-around ">
               <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
               <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
+              <button cButton class="mb-3 " (mouseenter)="voir(u)" [cModalToggle]="modalXl.id" color="secondary" size="sm">voir</button>
             </div>
-  
           </td>
         </tr>
       </tbody>
     </table>
     <ng-template #noUsers>
-      <span class="text-danger">Aucun utilisateur trouvé !</span>
+      <span class="text-danger">Aucun Etudiant trouvé !</span>
     </ng-template>
     <pagination-controls *ngIf="etudiants" (pageChange)="pageChanged($event)" previousLabel="Précédent" nextLabel="Suivant">
     </pagination-controls>
+    <c-modal #modalXl id="modalXl" size="xl">
+      <c-modal-header>
+        <h5 cModalTitle> {{etudiantModal.firstName + " " + etudiantModal.lastName }}
+        </h5>
+      </c-modal-header>
+      <c-modal-body>
+
+        <table [hover]="true" [striped]="true" cTable>
+          <thead>
+            <tr>
+              <th scope="col">Titre Professionnel</th>
+              <th scope="col">Ville</th>
+              <th scope="col">Date Debut</th>
+              <th scope="col">Date Fin</th>
+              <th scope="col" class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="promotionsEtudiant; else noPromo">
+            <tr
+              *ngFor="let p of promotionsEtudiant" >
+              <td>{{p.titreProfessionnelTitre}} </td>
+              <td>{{p.villeNom}}</td>
+              <td>{{p.dateDebut}}</td>
+              <td>{{p.dateFin}}</td>
+             
+      
+              <td>
+                <div class="d-flex justify-content-around ">
+                  <button cButton class="mb-3 "(click)="generer(p.id)" color="dark" size="sm">Générer le bulletin</button>
+
+                </div>
+      
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #noPromo>
+          <span class="text-danger">Aucune Promotion trouvée !</span>
+        </ng-template>
+        
+      </c-modal-body>
+    </c-modal>
   
   </c-container>

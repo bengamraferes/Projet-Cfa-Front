@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router } from '@angular/router';
 import { first } from 'rxjs';
 import { User } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
@@ -23,7 +24,7 @@ export class UtilisateurComponent {
   customStylesValidated = false;
   isModifier : boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService) {
+  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
 
     this.searchForm = this.formBuilder.group({
       search: ['']
@@ -36,6 +37,7 @@ export class UtilisateurComponent {
       email:'',
       role: '',
       active: '',
+      version: 0,
       // imagePath:''
     })
     this.searchExpression = '';
@@ -55,6 +57,7 @@ export class UtilisateurComponent {
   }
 
   getUsersList() {
+    console.log(this.router.url);
     this.userService.countUsers(this.searchExpression).pipe(first()).subscribe({
       next:(countDto)=>{
         this.totalItems = countDto.nb;
@@ -87,7 +90,13 @@ export class UtilisateurComponent {
     // userTosave = {...this.user}
     this.userService.save(userTosave).pipe(first()).subscribe({
       next: user =>{
-        this.users?.push(user);
+        this.visible = false;
+        this.searchForm.setValue(
+          {
+            search: [user.firstName]
+          }
+         )
+         this.onSubmit()
       },
       error: err=>{
         console.log(err)
@@ -105,6 +114,27 @@ export class UtilisateurComponent {
       
     })
   }
+  update(){
+    this.customStylesValidated = true;
+   
+    let userTosave = Object.assign(this.user, this.formAddUser.getRawValue())
+
+    this.userService.update(userTosave).pipe(first()).subscribe({
+     next: (user) => {
+       this.visible = false;
+       this.isModifier = false;
+       this.searchForm.setValue(
+        {
+          search: [user.firstName]
+        }
+       )
+       this.onSubmit()
+     },
+     error: err => {
+       console.log(err)
+     }
+   })
+  }
   modifier( user:User){
 
     this.formAddUser.setValue(
@@ -116,6 +146,7 @@ export class UtilisateurComponent {
         email:user.email,
         role: user.role,
         active: user.active,
+        version: user.version,
        } )
        this.visible = true;
        this.isModifier = true;
