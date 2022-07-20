@@ -1,18 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { first } from 'rxjs';
-import { TitreProfessionnel } from 'src/app/_models/titreProfessionnel';
-import { TitreProfessionnelService } from '../../_services/titreProfessionnel.service';
-
+import { Formation } from 'src/app/_models/formation';
+import { FormationService } from 'src/app/_services/formation.service';
 
 @Component({
-  selector: 'app-titre-professionnel',
-  templateUrl: './titre-professionnel.component.html',
-  styleUrls: ['./titre-professionnel.component.scss']
+  selector: 'app-formation',
+  templateUrl: './formation.component.html',
+  styleUrls: ['./formation.component.scss']
 })
-export class TitreProfessionnelComponent {
+export class FormationComponent  {
 
-  titresProfessionnels!: TitreProfessionnel[];
+ formations!: Formation[];
   itemsPerPage: number;
   currentPage: number;
   totalItems: number;
@@ -20,9 +19,8 @@ export class TitreProfessionnelComponent {
   searchExpression: string;
   searchForm: FormGroup;
   formAddIntervention: FormGroup;
-  titreProfessionnel: TitreProfessionnel = new TitreProfessionnel();
   visibleAlert: boolean;
-  constructor(private formBuilder : FormBuilder ,private titreProfessionnelService : TitreProfessionnelService) { 
+  constructor(private formBuilder : FormBuilder ,private formationService : FormationService) { 
 
     this.searchForm = this.formBuilder.group({
       search: ['']
@@ -36,20 +34,20 @@ export class TitreProfessionnelComponent {
       promotionId: 0,
     })
     this.searchExpression = '';
-    this.itemsPerPage = 3;
+    this.itemsPerPage = 6;
     this.currentPage = 1;
     this.totalItems = 0;
     this.nombreTpMiseAjour = 0;
     this.visibleAlert = false;
-    this.getTitreProsList();
+    this.getFormationsList();
   }
 
 get f() { return this.searchForm.controls; }
 get formUser() { return this.formAddIntervention.controls }
 get formUserValue() { return this.formAddIntervention.value }
 
-getTitreProsList() {
-  this.titreProfessionnelService.count(this.searchExpression).pipe(first()).subscribe({
+getFormationsList() {
+  this.formationService.count(this.searchExpression).pipe(first()).subscribe({
     next: (countDto) => {
       this.totalItems = countDto.nb;
       console.log(this.totalItems)
@@ -60,26 +58,27 @@ getTitreProsList() {
 
   })
 
-  this.titreProfessionnelService.getAll(this.currentPage, this.itemsPerPage, this.searchExpression).pipe(first()).subscribe(titresProfessionnels => {
-    this.titresProfessionnels = titresProfessionnels;
+  this.formationService.getAllPage(this.currentPage, this.itemsPerPage, this.searchExpression).pipe(first()).subscribe(formations => {
+    this.formations = formations;
   })
 }
 onSubmit() {
   this.searchExpression = this.f['search'].value;
-  this.getTitreProsList();
+  this.getFormationsList();
 }
 pageChanged(page: number) {
   this.currentPage = page;
-  this.getTitreProsList();
+  this.getFormationsList();
 }
 UpdateDg2(){
-  this.titreProfessionnelService.updateDg2().pipe(first()).subscribe( countDto =>{
-    this.getTitreProsList();
+  this.formationService.updateDg2().pipe(first()).subscribe( countDto =>{
+    this.getFormationsList();
     this.nombreTpMiseAjour = countDto.nb;
     this.visibleAlert = true;
     setTimeout(() => {
       this.visibleAlert = false;
-    }, 10000);
+    }, 8000);
   })
 }
+
 }

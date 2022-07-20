@@ -53,6 +53,7 @@ import { IconModule, IconSetService } from '@coreui/icons-angular';
 import { ButtonsRoutingModule } from './views/buttons/buttons-routing.module';
 import { YesNoPipe } from './utils/yes-no.pipe';
 import { TitreProfessionnelComponent } from './views/titre-professionnel/titre-professionnel.component';
+import { FormationComponent } from './views/formation/formation.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
@@ -66,7 +67,7 @@ const APP_CONTAINERS = [
 ];
 
 @NgModule({
-  declarations: [ AppComponent, ...APP_CONTAINERS, TitreProfessionnelComponent
+  declarations: [ AppComponent, ...APP_CONTAINERS
   ],
   exports :[
     

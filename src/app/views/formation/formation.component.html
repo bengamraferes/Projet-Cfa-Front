@@ -1,10 +1,10 @@
 <c-container>
 
     <h3 class="text-center">
-        Titres professionnels
+        Formations
     </h3>
     <c-alert [(visible)]="visibleAlert" [dismissible]="true" color="warning" fade *ngIf="visibleAlert">
-        <strong>{{nombreTpMiseAjour}}</strong> Titres professionnels mise à jour.
+        <strong>{{nombreTpMiseAjour}}</strong> formations mise à jour.
     </c-alert>
     <div class="align-items-end">
         <button (click)="UpdateDg2()" cButton class="mb-3 " color="primary" size="sm">Mettre à jour</button>
@@ -13,7 +13,7 @@
     <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
         <c-input-group>
             <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl
-                placeholder="Concepteur" formControlName="search" />
+                placeholder="Java" formControlName="search" />
             <button cButton color="info" id="button-addon2" type="submit" variant="outline">
                 Recherche
             </button>
@@ -24,14 +24,18 @@
             <tr>
                 <th scope="col">Titre</th>
                 <th scope="col">Slug </th>
+                <th scope="col">Dureé </th>
+                <th scope="col">Objectifs pedagogique </th>
                 <th scope="col" class="text-center">Action</th>
             </tr>
         </thead>
-        <tbody *ngIf="titresProfessionnels; else noTitrePro">
+        <tbody *ngIf="formations; else noFormation">
             <tr
-                *ngFor="let t of titresProfessionnels | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
-                <td>{{t.titre}} </td>
-                <td>{{t.slug}}</td>
+                *ngFor="let f of formations | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+                <td>{{f.titre}} </td>
+                <td>{{f.slug}}</td>
+                <td>{{f.duree}}</td>
+                <td>{{f.objectifsPedagogique}}</td>
                 <td>
                     <div class="d-flex justify-content-around ">
                         <!-- <button cButton class="mb-3 " (click)="modifier(i)" color="dark" size="sm">Modifier</button>
@@ -42,10 +46,10 @@
             </tr>
         </tbody>
     </table>
-    <ng-template #noTitrePro>
+    <ng-template #noFormation>
         <span class="text-danger">Aucun titre professionnel trouvé !</span>
     </ng-template>
-    <pagination-controls *ngIf="titresProfessionnels" (pageChange)="pageChanged($event)" previousLabel="Précédent"
+    <pagination-controls *ngIf="formations" (pageChange)="pageChanged($event)" previousLabel="Précédent"
         nextLabel="Suivant">
     </pagination-controls>
 

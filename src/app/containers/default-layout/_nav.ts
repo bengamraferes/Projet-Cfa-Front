@@ -6,7 +6,6 @@ export const navItems: INavData[] = [
     url: '/home',
     iconComponent: { name: 'cil-home' }
   },
-
   {
     name: 'Utilisateurs',
     url: '/utilisateur',
@@ -18,11 +17,24 @@ export const navItems: INavData[] = [
     // iconComponent: { name: 'cib-haxe' }
   },
   {
-    name: 'Interventions',
-    url: '/intervention',
-    linkProps: { fragment: 'someAnchor' },
+    name: 'Titres Professionnels',
+    url: '/titreProfessionnel',
     // iconComponent: { name: 'cil-briefcase' }
   },
+  {
+    name: 'Formations',
+    url: '/formation',
+  },
+  {
+    name: 'Bloc Competences',
+    url: '/blocCompetences',
+  },
+
+  {
+    name: 'Interventions',
+    url: '/intervention',
+  },
+ 
   {
     name: 'Promotions',
     url: '/promotion',

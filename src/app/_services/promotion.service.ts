@@ -3,6 +3,7 @@ import { Promotion } from './../_models/promotion';
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { catchError, map ,throwError } from "rxjs";
+import { Count } from '../_models/count';
 
 @Injectable({ providedIn: 'root' }) //@Service , ce service va pouvoir être injecté dans les différents composants
 
@@ -28,4 +29,5 @@ export class PromotionService {
       countPromotion(search: string) {
         return this.httpClient.get<any>(`${environment.apiUrl}/promotions/count/${search}`);
       }
+     
 }

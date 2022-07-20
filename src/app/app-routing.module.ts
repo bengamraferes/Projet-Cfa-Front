@@ -8,6 +8,7 @@ import { LoginComponent } from './views/pages/login/login.component';
 import { RegisterComponent } from './views/pages/register/register.component';
 
 
+
 const routes: Routes = [
   {
     path: '',
@@ -35,6 +36,24 @@ const routes: Routes = [
         path: 'etudiants',
         loadChildren: () =>
           import('./views/etudiant/etudiant.module').then((m) => m.EtudiantModule)
+      },
+      {
+        path:'titreProfessionnel',
+      loadChildren: ( ) => 
+        import('./views/titre-professionnel/titre-professionnel.module').then((m)=>m.TitreProfessionnelModule)
+        
+      },
+      {
+        path:'formation',
+      loadChildren: ( ) => 
+        import('./views/formation/formation.module').then((m)=>m.FormationModule)
+
+      },
+      {
+        path:'blocCompetences/:id',
+      loadChildren: ( ) => 
+        import('./views/bloc-Competences/bloc-Competences.module').then((m)=>m.BlocCompetencesModule)
+        
       },
       {
         path:'intervention',
