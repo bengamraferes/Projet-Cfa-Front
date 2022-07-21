@@ -34,10 +34,8 @@
                 <td>{{t.slug}}</td>
                 <td>
                     <div class="d-flex justify-content-around ">
-                        <!-- <button cButton class="mb-3 " (click)="modifier(i)" color="dark" size="sm">Modifier</button>
-                        <button cButton class="mb-3 " (click)="delete(i.id)" color="danger" size="sm">Supprimer</button> -->
+                        <a [routerLink]="['/blocCompetences/'+t.id]">Bloc de compétences associé </a>
                     </div>
-
                 </td>
             </tr>
         </tbody>

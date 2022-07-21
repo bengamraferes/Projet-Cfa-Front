@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { first } from 'rxjs';
 import { Formation } from 'src/app/_models/formation';
 import { FormationService } from 'src/app/_services/formation.service';
@@ -17,10 +17,10 @@ export class FormationComponent  {
   totalItems: number;
   nombreTpMiseAjour: number;
   searchExpression: string;
-  searchForm: FormGroup;
-  formAddIntervention: FormGroup;
+  searchForm: UntypedFormGroup;
+  formAddIntervention: UntypedFormGroup;
   visibleAlert: boolean;
-  constructor(private formBuilder : FormBuilder ,private formationService : FormationService) { 
+  constructor(private formBuilder : UntypedFormBuilder ,private formationService : FormationService) { 
 
     this.searchForm = this.formBuilder.group({
       search: ['']

@@ -1,1 +1,127 @@
 <p>bloc-competences works!</p>
+
+<c-container>
+
+    <h3 class="text-center">
+        Bloc competences
+    </h3>
+    <div class="align-items-end">
+      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' : 'Ajouter Bloc Compétences'}}</button>
+      <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
+        <c-card-body>
+          <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
+            class="row g-3 needs-validation" [formGroup]="formAddBlocCompetences" (ngSubmit)="isModifier? update(): addBlocComp()"  >
+            <c-col md="12">
+              <label cLabel for="validationCustom01">Titre</label>
+              <input cFormControl placeholder="Jean" formControlName="titre" id="validationCustom01" required
+                type="text" />
+              <c-form-feedback [valid]="false">Merci de saisir un Titre.</c-form-feedback>
+            </c-col>
+            <c-col md="12">
+              <label cLabel for="validationCustom02">Description</label>
+              <textarea  cFormControl placeholder="Afin de satisfaire les besoins des utilisateurs" formControlName="description" id="validationCustom02" rows="3" ></textarea> 
+              <c-form-feedback [valid]="false">Merci de saisir une Description.</c-form-feedback>
+            </c-col>
+            <c-col xs="12" class="mb-2">
+              <button cButton class="me-4"type="submit" color="success">{{isModifier?"Modifier" : "Ajouter"}}</button>
+  
+              <button (click)="onReset1()" cButton color="secondary">
+                Réinitialiser
+              </button>
+            </c-col>
+            <c-col xs="12" class="mb-2">
+            </c-col>
+          </form>
+  
+        </c-card-body>
+      </c-card>
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <c-input-group>
+        <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl placeholder="Jean"
+          formControlName="search" />
+        <button cButton color="info" id="button-addon2" type="submit" variant="outline">
+          Recherche
+        </button>
+      </c-input-group>
+    </form>
+    <table [hover]="true" [striped]="true" cTable>
+      <thead>
+        <tr>
+          <th scope="col">Titre</th>
+          <th scope="col">Description</th>
+          <th scope="col" class="text-center">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="blocsCompetences; else noBc">
+        <tr
+          *ngFor="let b of blocsCompetences ">
+          <td>{{b.titre}} </td>
+          <td>{{b.description}}</td>
+          <td>
+            <div class="d-flex justify-content-around ">
+                <button cButton class="mb-3 " (mouseenter)="voir(b)" [cModalToggle]="modalXl.id" color="secondary" size="sm">
+                    <fa-icon [icon]="voirIcon"></fa-icon>
+                </button>
+                <button  cButton class="mb-3 btnM"(click)="modifier(b)" color="dark" size="sm">
+                    <fa-icon [icon]="updateIcon"></fa-icon>
+
+                </button>
+                <button cButton class="mb-3 " (click)="delete(b.id)" color="danger" size="sm">
+                    <fa-icon [icon]="deleteIcon"></fa-icon>
+
+                   </button>
+               
+              </div>
+  
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ng-template #noBc>
+      <span class="text-danger">Aucun Bloc de compétences trouvé !</span>
+    </ng-template>
+
+    <c-modal #modalXl id="modalXl" size="xl">
+        <!-- <c-modal-header>
+          <h5 cModalTitle> {{etudiantModal.firstName + " " + etudiantModal.lastName }}
+          </h5>
+        </c-modal-header>
+        <c-modal-body>
+  
+          <table [hover]="true" [striped]="true" cTable>
+            <thead>
+              <tr>
+                <th scope="col">Titre Professionnel</th>
+                <th scope="col">Ville</th>
+                <th scope="col">Date Debut</th>
+                <th scope="col">Date Fin</th>
+                <th scope="col" class="text-center">Action</th>
+              </tr>
+            </thead>
+            <tbody *ngIf="promotionsEtudiant; else noPromo">
+              <tr
+                *ngFor="let p of promotionsEtudiant" >
+                <td>{{p.titreProfessionnelTitre}} </td>
+                <td>{{p.villeNom}}</td>
+                <td>{{p.dateDebut}}</td>
+                <td>{{p.dateFin}}</td>
+               
+        
+                <td>
+                  <div class="d-flex justify-content-around ">
+                    <button cButton class="mb-3 "(click)="generer(p.id)" color="dark" size="sm">Générer le bulletin</button>
+  
+                  </div>
+        
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <ng-template #noPromo>
+            <span class="text-danger">Aucune Promotion trouvée !</span>
+          </ng-template> -->
+          
+        <!-- </c-modal-body> -->
+    </c-modal>
+  </c-container>

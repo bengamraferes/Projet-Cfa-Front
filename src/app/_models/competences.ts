@@ -1,16 +1,15 @@
-export class BlocCompetences {
+export class Competences {
     id:number;
     description: string;
     titre:string;
-    titreProfessionnelId:number;
+    blocCompetencesId:number;
     version: number;
 
     constructor(){
         this.id=0;
         this.titre ='';
         this.description = '';
-        this.titreProfessionnelId = 0;
+        this.blocCompetencesId = 0;
         this.version = 0;
     }
-
 }

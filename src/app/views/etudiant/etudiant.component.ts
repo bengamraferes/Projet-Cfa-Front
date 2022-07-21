@@ -1,5 +1,5 @@
 import { Component} from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first, map } from 'rxjs';
 import { Promotion } from 'src/app/_models/promotion';
@@ -26,14 +26,14 @@ export class EtudiantComponent {
   currentPage: number;
   totalItems: number;
   searchExpression: string;
-  searchForm: FormGroup;
-  formAddEtudiant: FormGroup;
+  searchForm: UntypedFormGroup;
+  formAddEtudiant: UntypedFormGroup;
   etudiant : Etudiant = new Etudiant();
   etudiantModal : Etudiant = new Etudiant();
   customStylesValidated = false;
   isModifier : boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private etudiantService: EtudiantService, private prmotionService: PromotionService,
+  constructor(private formBuilder: UntypedFormBuilder, private etudiantService: EtudiantService, private prmotionService: PromotionService,
 private generatorSevice: GeneratorService) {
 
     this.searchForm = this.formBuilder.group({
@@ -146,9 +146,9 @@ private generatorSevice: GeneratorService) {
        this.isModifier = true;
   }
   update(){
-    let interventionTosave = Object.assign(this.etudiantService, this.formAddEtudiant.getRawValue())
+    let etudiantTosave = Object.assign(this.etudiantService, this.formAddEtudiant.getRawValue())
 
-    this.etudiantService.update(interventionTosave).pipe(first()).subscribe({
+    this.etudiantService.update(etudiantTosave).pipe(first()).subscribe({
      next: (etu) => {
   
        this.visible = false;
@@ -158,8 +158,7 @@ private generatorSevice: GeneratorService) {
           search: [etu.firstName]
         }
        )
-       this.onSubmit()
-       
+       setTimeout(() =>  this.onSubmit(), 500);
      },
      error: err => {
        console.log(err)

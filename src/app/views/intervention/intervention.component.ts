@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { first } from 'rxjs';
 import { User } from '../../_models/user';
 import { InterventionService } from '../../_services/intervention.service';
@@ -26,13 +26,13 @@ export class InterventionComponent {
   currentPage: number;
   totalItems: number;
   searchExpression: string;
-  searchForm: FormGroup;
-  formAddIntervention: FormGroup;
+  searchForm: UntypedFormGroup;
+  formAddIntervention: UntypedFormGroup;
   intrevention: Intervention = new Intervention();
   customStylesValidated = false;
   isModifier: boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private interventionService: InterventionService,
+  constructor(private formBuilder: UntypedFormBuilder, private interventionService: InterventionService,
     private formationService: FormationService, private prmotionService: PromotionService, private userService: UserService
   ) {
 

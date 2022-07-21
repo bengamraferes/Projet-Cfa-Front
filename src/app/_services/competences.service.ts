@@ -3,11 +3,12 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { map  } from "rxjs";
 import { BlocCompetences } from '../_models/blocCompetences';
+import { Competences } from '../_models/competences';
 
 @Injectable({ providedIn: 'root' }) //@Service , ce service va pouvoir être injecté dans les différents composants
 
 
-export class BlocCompetencesService {
+export class CompetencesService {
 
     private httpHeaders = {
         headers: new HttpHeaders({
@@ -21,30 +22,30 @@ export class BlocCompetencesService {
       }
       getAll(page: number, size: number, search: string) {
 
-        return this.httpClient.get<BlocCompetences[]>(`${environment.apiUrl}/blocsCompetence/${page}/${size}/${search}`,this.httpHeaders);
+        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/${page}/${size}/${search}`,this.httpHeaders);
       }
-      getAllByTitreProfessionnelId(id : number){
-        return this.httpClient.get<BlocCompetences[]>(`${environment.apiUrl}/blocsCompetence/titresProfessionnel/${id}`,this.httpHeaders);
+      getAllByBlocCompId(id : number){
+        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/titresProfessionnel/${id}`,this.httpHeaders);
 
       }
-      getAllByTitreProfessionnelIdSearch(id : number, search: string){
-        return this.httpClient.get<BlocCompetences[]>(`${environment.apiUrl}/blocsCompetence/titresProfessionnel/${id}/${search}`,this.httpHeaders);
+      getAllByBlocCompIdSearch(id : number, search: string){
+        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/titresProfessionnel/${id}/${search}`,this.httpHeaders);
 
       }
       count(search: string) {
-        return this.httpClient.get<any>(`${environment.apiUrl}/blocsCompetence/count/${search}`);
+        return this.httpClient.get<any>(`${environment.apiUrl}/competences/count/${search}`);
       }
       delete(id: number) {
-        return this.httpClient.delete<void>(`${environment.apiUrl}/blocsCompetence/${id}`,this.httpHeaders).pipe(map(deleteI => { return deleteI }));
+        return this.httpClient.delete<void>(`${environment.apiUrl}/competences/${id}`,this.httpHeaders).pipe(map(deleteI => { return deleteI }));
       }
     
       save(blocC: BlocCompetences) {
-        return this.httpClient.post<any>(`${environment.apiUrl}/blocsCompetence`, blocC, this.httpHeaders)
+        return this.httpClient.post<any>(`${environment.apiUrl}/competences`, blocC, this.httpHeaders)
           .pipe(map(savedblocC => { return savedblocC}));
       }
     
       update(blocC: BlocCompetences) {
-        return this.httpClient.put<any>(`${environment.apiUrl}/blocsCompetence`, blocC, this.httpHeaders)
+        return this.httpClient.put<any>(`${environment.apiUrl}/competences`, blocC, this.httpHeaders)
           .pipe(map(savedblocC => { return savedblocC }));
       }
 }

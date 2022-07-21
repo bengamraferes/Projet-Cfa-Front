@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { first } from 'rxjs';
 import { TitreProfessionnel } from 'src/app/_models/titreProfessionnel';
 import { TitreProfessionnelService } from '../../_services/titreProfessionnel.service';
@@ -18,11 +18,11 @@ export class TitreProfessionnelComponent {
   totalItems: number;
   nombreTpMiseAjour: number;
   searchExpression: string;
-  searchForm: FormGroup;
-  formAddIntervention: FormGroup;
+  searchForm: UntypedFormGroup;
+  formAddIntervention: UntypedFormGroup;
   titreProfessionnel: TitreProfessionnel = new TitreProfessionnel();
   visibleAlert: boolean;
-  constructor(private formBuilder : FormBuilder ,private titreProfessionnelService : TitreProfessionnelService) { 
+  constructor(private formBuilder : UntypedFormBuilder ,private titreProfessionnelService : TitreProfessionnelService) { 
 
     this.searchForm = this.formBuilder.group({
       search: ['']

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { first } from 'rxjs';
 import { User } from '../../_models/user';
@@ -18,13 +18,13 @@ export class UtilisateurComponent {
   currentPage: number;
   totalItems: number;
   searchExpression: string;
-  searchForm: FormGroup;
-  formAddUser: FormGroup;
+  searchForm: UntypedFormGroup;
+  formAddUser: UntypedFormGroup;
   user : User = new User();
   customStylesValidated = false;
   isModifier : boolean = false;
 
-  constructor(private formBuilder: FormBuilder, private userService: UserService, private router: Router) {
+  constructor(private formBuilder: UntypedFormBuilder, private userService: UserService, private router: Router) {
 
     this.searchForm = this.formBuilder.group({
       search: ['']
@@ -128,8 +128,7 @@ export class UtilisateurComponent {
           search: [user.firstName]
         }
        )
-       this.onSubmit()
-     },
+       setTimeout(() =>  this.onSubmit(), 500);     },
      error: err => {
        console.log(err)
      }

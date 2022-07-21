@@ -50,7 +50,7 @@ const routes: Routes = [
 
       },
       {
-        path:'blocCompetences/:id',
+        path:'blocCompetences/:idTitrePro',
       loadChildren: ( ) => 
         import('./views/bloc-Competences/bloc-Competences.module').then((m)=>m.BlocCompetencesModule)
         
