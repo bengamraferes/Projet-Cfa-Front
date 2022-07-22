@@ -25,11 +25,11 @@ export class CompetencesService {
         return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/${page}/${size}/${search}`,this.httpHeaders);
       }
       getAllByBlocCompId(id : number){
-        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/titresProfessionnel/${id}`,this.httpHeaders);
+        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/blocCompetence/${id}`,this.httpHeaders);
 
       }
       getAllByBlocCompIdSearch(id : number, search: string){
-        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/titresProfessionnel/${id}/${search}`,this.httpHeaders);
+        return this.httpClient.get<Competences[]>(`${environment.apiUrl}/competences/blocCompetence/${id}/${search}`,this.httpHeaders);
 
       }
       count(search: string) {

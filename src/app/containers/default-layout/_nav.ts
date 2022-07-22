@@ -29,7 +29,7 @@ export const navItems: INavData[] = [
     name: 'Bloc Competences',
     url: '/blocCompetences',
   },
-
+  
   {
     name: 'Interventions',
     url: '/intervention',
@@ -40,6 +40,10 @@ export const navItems: INavData[] = [
     url: '/promotion',
     linkProps: { fragment: 'someAnchor' },
     // iconComponent: { name: 'cil-badge' }
+  },
+  {
+    name: 'Villes',
+    url: '/ville',
   },
   // {
   //   name: 'Components',

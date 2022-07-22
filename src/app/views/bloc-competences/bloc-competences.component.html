@@ -82,22 +82,19 @@
       <span class="text-danger">Aucun Bloc de compétences trouvé !</span>
     </ng-template>
 
-    <c-modal #modalXl id="modalXl" size="xl">
+    <c-modal #modalXl id="modalXl" [visible]="isModalVisible" (visibleChange)="handleLiveChange($event)" size="xl">
         <c-modal-header>
           <h5 cModalTitle> {{blocCompetencesModal.titre }}
           </h5>
         </c-modal-header>
         <c-modal-body>
-  
-           <h3 class="text-center">
-        Bloc competences
-    </h3>
+
     <div class="align-items-end">
-      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' : 'Ajouter Bloc Compétences'}}</button>
-      <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
+      <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visibleColspanModal? 'Annuler' : 'Ajouter Compétences'}}</button>
+      <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visibleColspanModal" cCollapse>
         <c-card-body>
           <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
-            class="row g-3 needs-validation" [formGroup]="formAddBlocCompetences" (ngSubmit)="isModifier? update(): addBlocComp()"  >
+            class="row g-3 needs-validation" [formGroup]="formAddBlocCompetences" (ngSubmit)="isModifierModal? updateCompetence(): addCompetence()"  >
             <c-col md="12">
               <label cLabel for="validationCustom01">Titre</label>
               <input cFormControl placeholder="Jean" formControlName="titre" id="validationCustom01" required
@@ -110,8 +107,7 @@
               <c-form-feedback [valid]="false">Merci de saisir une Description.</c-form-feedback>
             </c-col>
             <c-col xs="12" class="mb-2">
-              <button cButton class="me-4"type="submit" color="success">{{isModifier?"Modifier" : "Ajouter"}}</button>
-  
+              <button cButton class="me-4"type="submit" color="success">{{isModifierModal?"Modifier" : "Ajouter"}}</button>
               <button (click)="onReset1()" cButton color="secondary">
                 Réinitialiser
               </button>
@@ -140,21 +136,19 @@
           <th scope="col" class="text-center">Action</th>
         </tr>
       </thead>
-      <tbody *ngIf="blocsCompetences; else noBc">
+      <tbody *ngIf="competences; else noC">
         <tr
-          *ngFor="let b of blocsCompetences ">
-          <td>{{b.titre}} </td>
-          <td>{{b.description}}</td>
+          *ngFor="let c of competences ">
+          <td>{{c.titre}} </td>
+          <td>{{c.description}}</td>
           <td>
             <div class="d-flex justify-content-around ">
-                <button cButton class="mb-3 " (mouseenter)="voir(b)" [cModalToggle]="modalXl.id" color="secondary" size="sm">
-                    <fa-icon [icon]="voirIcon"></fa-icon>
-                </button>
-                <button  cButton class="mb-3 btnM"(click)="modifier(b)" color="dark" size="sm">
+           
+                <button  cButton class="mb-3 btnM"(click)="modifierCompetence(c)" color="dark" size="sm">
                     <fa-icon [icon]="updateIcon"></fa-icon>
 
                 </button>
-                <button cButton class="mb-3 " (click)="delete(b.id)" color="danger" size="sm">
+                <button cButton class="mb-3 " (click)="deleteCompetence(c.id)" color="danger" size="sm">
                     <fa-icon [icon]="deleteIcon"></fa-icon>
 
                    </button>
@@ -165,9 +159,9 @@
         </tr>
       </tbody>
     </table>
-    <ng-template #noBc>
-      <span class="text-danger">Aucun Bloc de compétences trouvé !</span>
-    </ng-template
+    <ng-template #noC>
+      <span class="text-danger">Aucun compétences trouvé !</span>
+    </ng-template>
          </c-modal-body>
     </c-modal>
   </c-container>

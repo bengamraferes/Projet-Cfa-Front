@@ -7,6 +7,7 @@ export class Promotion {
     versionId: number;
     villeNom : string;
     titreProfessionnelTitre : string;
+    version: number;
 
     constructor() {
         this.id = 0;
@@ -17,6 +18,7 @@ export class Promotion {
         this.versionId = 0;
         this.villeNom = '';
         this.titreProfessionnelTitre = '';
+        this.version = 0;
     }
 
 }

@@ -56,6 +56,12 @@ const routes: Routes = [
         
       },
       {
+        path:'ville',
+      loadChildren: ( ) => 
+        import('./views/ville/ville.module').then((m)=>m.VilleModule )
+
+      },
+      {
         path:'intervention',
       loadChildren: ( ) => 
         import('./views/intervention/intervention.module').then((m)=>m.InterventionModule )

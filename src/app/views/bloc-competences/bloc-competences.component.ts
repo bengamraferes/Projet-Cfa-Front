@@ -23,16 +23,21 @@ export class BlocCompetencesComponent  {
   deleteIcon = faTrashCan;
   voirIcon = faEye;
 
+  visibleColspanModal= false;
   visible = false;
+  isModalVisible = false;
   blocsCompetences!: BlocCompetences[];
   competences!: Competences[];
   searchExpression: string;
+  searchExpressionCompetence: string;
   searchForm: UntypedFormGroup;
   formAddBlocCompetences: UntypedFormGroup;
   blocCompetences : BlocCompetences = new BlocCompetences();
   blocCompetencesModal : BlocCompetences = new BlocCompetences();
+  competence : Competences =  new Competences();
   customStylesValidated = false;
   isModifier : boolean = false;
+  isModifierModal = false;
   titreProId : number;
 
   constructor(private formBuilder: UntypedFormBuilder, private blocCompetencesService: BlocCompetencesService, private route: ActivatedRoute,
@@ -49,6 +54,7 @@ export class BlocCompetencesComponent  {
     })
     
     this.searchExpression = '';
+    this.searchExpressionCompetence ='';
     this.titreProId =0;
     this.route.params.subscribe(params =>this.titreProId = params['idTitrePro'])
     this.getBlocCompList();
@@ -58,11 +64,18 @@ export class BlocCompetencesComponent  {
   get formUser(){return this.formAddBlocCompetences.controls}
   get formUserValue(){return this.formAddBlocCompetences.value}
   toggleCollapse(): void {
-    // @ts-ignore
-    this.visible = !this.visible;
-    this.isModifier = false;
+    if (this.isModalVisible) {
+      this.visibleColspanModal = !this.visibleColspanModal;
+      this.isModifierModal = false
+    }
+    else{
+      this.visible = !this.visible;
+      this.isModifier = false;
+    }
   }
-
+  handleLiveChange(event :any){
+    this.isModalVisible = event
+  }
   getBlocCompList() {
     this.blocCompetencesService.getAllByTitreProfessionnelId(this.titreProId).pipe(first()).subscribe(blocsCompetences => {
       this.blocsCompetences = blocsCompetences;
@@ -73,10 +86,21 @@ export class BlocCompetencesComponent  {
       this.blocsCompetences = blocsCompetences;
     })
   }
-
+  getcCompListSearch(){
+    this.competencesService.getAllByBlocCompIdSearch(this.blocCompetencesModal.id,this.searchExpressionCompetence).pipe(first()).subscribe(competences => {
+      this.competences = competences;
+    })
+  }
   onSubmit() {
-    this.searchExpression = this.f['search'].value;
-    this.getBlocCompListSearch();
+    if (this.isModalVisible) {
+      this.searchExpressionCompetence = this.f['search'].value;
+      this.getcCompListSearch();
+    }
+    else {
+      this.searchExpression = this.f['search'].value;
+      this.getBlocCompListSearch();
+    }
+  
   }
   addBlocComp(){
     this.customStylesValidated = true;
@@ -99,11 +123,46 @@ export class BlocCompetencesComponent  {
       }
     })
   }
+  addCompetence(){
+    this.customStylesValidated = true;
+   
+    let compToSave = Object.assign(this.competence, this.formAddBlocCompetences.getRawValue())
+    compToSave.blocCompetencesId = this.blocCompetencesModal.id;
+
+    this.competencesService.save(compToSave).pipe(first()).subscribe({
+      next: compSaved =>{
+        this.visibleColspanModal = false;
+        this.searchForm.setValue(
+          {
+            search: [compSaved.titre]
+          }
+         )
+         setTimeout(() =>  this.onSubmit(), 500);
+        
+      },
+      error: err=>{
+        console.log(err)
+      }
+    })
+
+  }
   delete(id:number){
     this.blocCompetencesService.delete(id).subscribe({
       next: response =>{
         console.log(response)
         setTimeout(() =>  this.getBlocCompList(), 500);
+      },
+     error: err=>{
+       console.log(err)
+     }
+      
+    })
+  }
+  deleteCompetence(id:number){
+    this.competencesService.delete(id).subscribe({
+      next: response =>{
+        console.log(response)
+        setTimeout(() =>  this.getAllCompetencesByBlocdeCompetences(this.blocCompetencesModal.id), 500);
       },
      error: err=>{
        console.log(err)
@@ -132,6 +191,29 @@ export class BlocCompetencesComponent  {
       }
     })
   }
+  updateCompetence(){
+    this.customStylesValidated = true;
+   
+    let compToSave = Object.assign(this.competence, this.formAddBlocCompetences.getRawValue())
+    compToSave.blocCompetencesId = this.blocCompetencesModal.id;
+
+    this.competencesService.update(compToSave).pipe(first()).subscribe({
+      next: compSaved =>{
+        this.visibleColspanModal = false;
+        this.searchForm.setValue(
+          {
+            search: [compSaved.titre]
+          }
+         )
+         setTimeout(() =>  this.onSubmit(), 500);
+        
+      },
+      error: err=>{
+        console.log(err)
+      }
+    })
+
+  }
   modifier( blocC:BlocCompetences){
 
     this.formAddBlocCompetences.setValue(
@@ -144,8 +226,22 @@ export class BlocCompetencesComponent  {
        this.visible = true;
        this.isModifier = true;
   }
+  modifierCompetence(comp :Competences){
+    this.formAddBlocCompetences.setValue(
+      {
+        id:comp.id,
+        titre:comp.titre,
+        description:comp.description,
+        version:comp.version
+       } )
+       this.visibleColspanModal = true;
+       this.isModifierModal = true;
+  }
+  
   getAllCompetencesByBlocdeCompetences(id : number){
+    console.log(id)
     this.competencesService.getAllByBlocCompId(id).pipe(first()).subscribe(competences =>{
+      console.log(competences)
       this.competences = competences
     })
   }
