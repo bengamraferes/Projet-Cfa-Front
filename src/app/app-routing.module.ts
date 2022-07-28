@@ -62,6 +62,12 @@ const routes: Routes = [
 
       },
       {
+        path:'promotion',
+      loadChildren: ( ) => 
+        import('./views/promotion/promotion.module').then((m)=>m.PromotionModule )
+
+      },
+      {
         path:'intervention',
       loadChildren: ( ) => 
         import('./views/intervention/intervention.module').then((m)=>m.InterventionModule )

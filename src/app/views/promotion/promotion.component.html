@@ -1,0 +1,166 @@
+<c-container>
+
+    <h3 class="text-center">
+        Promotions </h3>
+    <div class="align-items-end">
+        <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' :
+            'Ajouter Promotion'}}</button>
+        <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
+            <c-card-body>
+                <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
+                    class="row g-3 needs-validation" [formGroup]="formAddPromo" (ngSubmit)="addPromo()">
+                    <c-col md="6">
+
+                        <label cLabel for="validationCustom01">Date Début :</label>
+                        <input type="date" id="start" name="trip-start" value="2018-07-22" cFormControl
+                            formControlName="dateDebut" required="">
+                        <c-form-feedback [valid]="false">Merci de sélectioner une date.</c-form-feedback>
+
+                    </c-col>
+                    <c-col md="6">
+                        <label cLabel for="validationCustom01">Date Fin :</label>
+                        <input type="date" id="start" name="trip-start" value="2018-07-22" cFormControl
+                            formControlName="dateFin" required="">
+                        <c-form-feedback [valid]="false">Merci de sélectioner une date.</c-form-feedback>
+                    </c-col>
+                        <c-col md="6">
+                            <label cLabel for="inputState">Titre Professionnel</label>
+                            <select required cSelect id="inputState" formControlName="titreProfessionnelId">
+                                <option *ngFor="let t of titresPro" [value]="t.id">{{t.titre}}</option>
+                            </select>
+                            <c-form-feedback [valid]="false">Merci de sélectioner un titre Professionnel
+                            </c-form-feedback>
+                        </c-col>
+                        <c-col md="6">
+                            <label cLabel for="inputState">Ville</label>
+                            <select required cSelect id="inputState" formControlName="villeId">
+                                <option *ngFor="let v of villes" [value]="v.id">{{v.slug}}</option>
+                            </select>
+                            <c-form-feedback [valid]="false">Merci de sélectioner une ville </c-form-feedback>
+                        </c-col>
+                        <!-- <c-col md="12">
+                            <label cLabel for="inputState">etudiants</label>
+                            <select cFormControl formControlName="etudiantsId" required
+                                aria-label="Multiple select example" cSelect multiple sizing="lg">
+                                <option *ngFor="let e of etudiants" [value]="e.id">{{e.firstName + " " + e.lastName}}
+                                </option>
+                            </select>
+                            <c-form-feedback [valid]="false">Merci de sélectioner un ou plusieurs etudiants.
+                            </c-form-feedback>
+
+                        </c-col> -->
+                        <c-col md="12">
+                            <label cLabel for="inputState">etudiants</label>
+                                <ng-multiselect-dropdown
+                                    cFormControl
+                                    required
+                                    [settings]="dropdownSettings"
+                                    [data]="etudiants"
+                                    formControlName="etudiantsId">
+                                </ng-multiselect-dropdown>
+                                <c-form-feedback [valid]="false">Merci de sélectioner un ou plusieurs etudiants.
+                                </c-form-feedback>
+                           
+                        </c-col>
+                        <c-col xs="12" class="mb-2">
+                            <button cButton class="me-4" type="submit" color="success">{{isModifier?"Modifier" :
+                                "Ajouter"}}</button>
+
+                            <button (click)="onReset1()" cButton color="secondary">
+                                Réinitialiser
+                            </button>
+                        </c-col>
+                        <c-col xs="12" class="mb-2">
+                        </c-col>
+                </form>
+
+            </c-card-body>
+        </c-card>
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <c-input-group >
+            <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl placeholder="Jean"
+                formControlName="search" />
+            <button cButton color="info" id="button-addon2" type="submit" variant="outline">
+                Recherche
+            </button>
+        </c-input-group>
+    </form>
+    <table [hover]="true" [striped]="true" cTable>
+        <thead>
+            <tr>
+                <th scope="col">Date Début</th>
+                <th scope="col">Date Fin </th>
+                <th scope="col">Titre Professionnel</th>
+                <th scope="col">Ville</th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="promotions; else noPromo">
+            <tr
+                *ngFor="let p of promotions | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+                <td>{{p.dateDebut}} </td>
+                <td>{{p.dateFin}}</td>
+                <td>{{p.titreProfessionnelTitre}}</td>
+                <td>{{p.villeNom}}</td>
+                <td>
+                    <div class="d-flex justify-content-around ">
+                        <button cButton class="mb-3 " (click)="modifier(p)" color="dark" size="sm">Modifier</button>
+                        <button cButton class="mb-3 " (click)="delete(p.id)" color="danger" size="sm">Supprimer</button>
+                        <button cButton class="mb-3 " (mouseenter)="voir(p)" [cModalToggle]="modalXl.id"
+                            color="secondary" size="sm">voir</button>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noPromo>
+        <span class="text-danger">Aucune Promotion trouvé !</span>
+    </ng-template>
+    <pagination-controls *ngIf="etudiants" (pageChange)="pageChanged($event)" previousLabel="Précédent"
+        nextLabel="Suivant">
+    </pagination-controls>
+    <c-modal #modalXl id="modalXl" size="xl">
+        <!-- <c-modal-header>
+        <h5 cModalTitle> {{etudiantModal.firstName + " " + etudiantModal.lastName }}
+        </h5>
+      </c-modal-header>
+      <c-modal-body>
+
+        <table [hover]="true" [striped]="true" cTable>
+          <thead>
+            <tr>
+              <th scope="col">Titre Professionnel</th>
+              <th scope="col">Ville</th>
+              <th scope="col">Date Debut</th>
+              <th scope="col">Date Fin</th>
+              <th scope="col" class="text-center">Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="promotionsEtudiant; else noPromo">
+            <tr
+              *ngFor="let p of promotionsEtudiant" >
+              <td>{{p.titreProfessionnelTitre}} </td>
+              <td>{{p.villeNom}}</td>
+              <td>{{p.dateDebut}}</td>
+              <td>{{p.dateFin}}</td>
+             
+      
+              <td>
+                <div class="d-flex justify-content-around ">
+                  <button cButton class="mb-3 "(click)="generer(p.id)" color="dark" size="sm">Générer le bulletin</button>
+
+                </div>
+      
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <ng-template #noPromo>
+          <span class="text-danger">Aucune Promotion trouvée !</span>
+        </ng-template>
+        
+      </c-modal-body> -->
+    </c-modal>
+
+</c-container>

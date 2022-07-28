@@ -1,1 +1,53 @@
-<p>ville works!</p>
+<c-container>
+
+    <h3 class="text-center">
+        Villes
+    </h3>
+    <c-alert [(visible)]="visibleAlert" [dismissible]="true" color="warning" fade *ngIf="visibleAlert">
+        <strong>{{nombreTpMiseAjour}}</strong> villes mise à jour.
+    </c-alert>
+    <div class="align-items-end">
+        <button (click)="UpdateDg2()" cButton class="mb-3 " color="primary" size="sm">Mettre à jour</button>
+
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <c-input-group>
+            <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl
+                placeholder="Rennes" formControlName="search" />
+            <button cButton color="info" id="button-addon2" type="submit" variant="outline">
+                Recherche
+            </button>
+        </c-input-group>
+    </form>
+    <table [hover]="true" [striped]="true" cTable>
+        <thead>
+            <tr>
+                <th scope="col">Nom</th>
+                <th scope="col">Slug </th>
+                <!-- <th scope="col" class="text-center">Action</th> -->
+            </tr>
+        </thead>
+        <tbody *ngIf="villes; else noVille">
+            <tr
+                *ngFor="let v of villes | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+                <td>{{v.nom}} </td>
+                <td>{{v.slug}}</td>
+       
+                <td>
+                    <div class="d-flex justify-content-around ">
+                        <!-- <button cButton class="mb-3 " (click)="modifier(i)" color="dark" size="sm">Modifier</button>
+                        <button cButton class="mb-3 " (click)="delete(i.id)" color="danger" size="sm">Supprimer</button> -->
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noVille>
+        <span class="text-danger">Aucun titre professionnel trouvé !</span>
+    </ng-template>
+    <pagination-controls *ngIf="villes" (pageChange)="pageChanged($event)" previousLabel="Précédent"
+        nextLabel="Suivant">
+    </pagination-controls>
+
+</c-container>

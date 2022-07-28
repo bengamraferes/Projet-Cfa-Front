@@ -27,7 +27,22 @@ export class PromotionService {
         return this.httpClient.get<Promotion[]>(`${environment.apiUrl}/promotions`,this.httpHeaders);
       }
       countPromotion(search: string) {
-        return this.httpClient.get<any>(`${environment.apiUrl}/promotions/count/${search}`);
+        return this.httpClient.get<Count>(`${environment.apiUrl}/promotions/count/${search}`);
+      }
+  
+    
+      delete(id: number) {
+        return this.httpClient.delete<void>(`${environment.apiUrl}/promotions/${id}`,this.httpHeaders)
+      }
+    
+      save(promo: Promotion) {
+        return this.httpClient.post<any>(`${environment.apiUrl}/promotions`, promo, this.httpHeaders)
+          .pipe(map(savedPrmo => { return savedPrmo }));
+      }
+    
+      update(promo: Promotion) {
+        return this.httpClient.put<any>(`${environment.apiUrl}/promotions`, promo, this.httpHeaders)
+          .pipe(map(savedPrmo => { return savedPrmo }));
       }
      
 }

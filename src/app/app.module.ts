@@ -55,6 +55,7 @@ import { YesNoPipe } from './utils/yes-no.pipe';
 import { TitreProfessionnelComponent } from './views/titre-professionnel/titre-professionnel.component';
 import { FormationComponent } from './views/formation/formation.component';
 import { VilleComponent } from './views/ville/ville.component';
+import { PromotionComponent } from './views/promotion/promotion.component';
 
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
