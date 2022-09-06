@@ -20,6 +20,11 @@ export class EtudiantService {
 
         return this.httpClient.get<Etudiant[]>(`${environment.apiUrl}/etudiants/${page}/${size}/${search}`,this.httpHeaders);
       }
+    
+    getAllByPrmoId(promoId: number) {
+
+      return this.httpClient.get<Etudiant[]>(`${environment.apiUrl}/etudiants/promotion}/${promoId}/`,this.httpHeaders);
+    }
       findById(id: number) {
         return this.httpClient.get<any>(`${environment.apiUrl}/etudiants/${id}`,this.httpHeaders)
           .pipe(map(userFound => { return userFound; }));

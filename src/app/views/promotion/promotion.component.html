@@ -8,7 +8,7 @@
         <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
             <c-card-body>
                 <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
-                    class="row g-3 needs-validation" [formGroup]="formAddPromo" (ngSubmit)="addPromo()">
+                    class="row g-3 needs-validation" [formGroup]="formAddPromo" (ngSubmit)="isModifier? update(): addPromo()">
                     <c-col md="6">
 
                         <label cLabel for="validationCustom01">Date Début :</label>
@@ -77,8 +77,8 @@
             </c-card-body>
         </c-card>
     </div>
-    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-        <c-input-group >
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" *ngIf="visible == false">
+        <c-input-group>
             <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl placeholder="Jean"
                 formControlName="search" />
             <button cButton color="info" id="button-addon2" type="submit" variant="outline">
@@ -107,8 +107,9 @@
                     <div class="d-flex justify-content-around ">
                         <button cButton class="mb-3 " (click)="modifier(p)" color="dark" size="sm">Modifier</button>
                         <button cButton class="mb-3 " (click)="delete(p.id)" color="danger" size="sm">Supprimer</button>
-                        <button cButton class="mb-3 " (mouseenter)="voir(p)" [cModalToggle]="modalXl.id"
-                            color="secondary" size="sm">voir</button>
+                
+                            <a [routerLink]="['/detailPromo/'+p.id]">Detail promotion </a>
+                       
                     </div>
                 </td>
             </tr>

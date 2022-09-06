@@ -25,10 +25,6 @@ export const navItems: INavData[] = [
     name: 'Formations',
     url: '/formation',
   },
-  {
-    name: 'Bloc Competences',
-    url: '/blocCompetences',
-  },
   
   {
     name: 'Interventions',
@@ -44,6 +40,14 @@ export const navItems: INavData[] = [
   {
     name: 'Villes',
     url: '/ville',
+  },
+  {
+    name: 'Niveaux',
+    url: '/niveau',
+  },
+  {
+    name: 'Epreuves',
+    url: '/epreuve',
   },
   // {
   //   name: 'Components',

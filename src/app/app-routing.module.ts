@@ -41,6 +41,7 @@ const routes: Routes = [
         path:'titreProfessionnel',
       loadChildren: ( ) => 
         import('./views/titre-professionnel/titre-professionnel.module').then((m)=>m.TitreProfessionnelModule)
+     
         
       },
       {
@@ -53,6 +54,12 @@ const routes: Routes = [
         path:'blocCompetences/:idTitrePro',
       loadChildren: ( ) => 
         import('./views/bloc-Competences/bloc-Competences.module').then((m)=>m.BlocCompetencesModule)
+        
+      },
+      {
+        path:'detailPromo/:idPromo',
+      loadChildren: ( ) => 
+        import('./views/prmotion-detail/prmotion-detail.module').then((m)=>m.PrmotionDetailModule)
         
       },
       {
@@ -71,6 +78,18 @@ const routes: Routes = [
         path:'intervention',
       loadChildren: ( ) => 
         import('./views/intervention/intervention.module').then((m)=>m.InterventionModule )
+
+      },
+      {
+        path:'niveau',
+      loadChildren: ( ) => 
+        import('./views/niveau/niveau.module').then((m)=>m.NiveauModule )
+
+      },
+      {
+        path:'epreuve',
+      loadChildren: ( ) => 
+        import('./views/epreuve/epreuve.module').then((m)=>m.EpreuveModule )
 
       },
       {

@@ -1,0 +1,39 @@
+<c-container>
+
+    <table [hover]="true" [striped]="true" cTable>
+        <thead>
+          <tr>
+            <th scope="col">Nom</th>
+            <th scope="col">Prenom</th>
+            <th scope="col">Email</th>
+            <th scope="col">Role</th>
+            <th scope="col">Active</th>
+            <th scope="col" class="text-center">Action</th>
+          </tr>
+        </thead>
+        <tbody *ngIf="etudiants; else noUsers">
+          <tr
+            *ngFor="let u of etudiants | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+            <td>{{u.firstName}} </td>
+            <td>{{u.lastName}}</td>
+            <td>{{u.email}}</td>
+            <td>{{u.role | titlecase}}</td>
+            <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td>
+    
+            <td>
+              <div class="d-flex justify-content-around ">
+                <!-- <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
+                <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
+                <button cButton class="mb-3 " (mouseenter)="voir(u)" [cModalToggle]="modalXl.id" color="secondary" size="sm">voir</button> --> -->
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ng-template #noUsers>
+        <span class="text-danger">Aucun Etudiant trouvé !</span>
+      </ng-template>
+      <!-- <pagination-controls *ngIf="etudiants" (pageChange)="pageChanged($event)" previousLabel="Précédent" nextLabel="Suivant">
+      </pagination-controls> -->
+
+</c-container>

@@ -1,25 +1,25 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { PromotionRoutingModule } from './promotion-routing.module';
-import { AvatarModule, ButtonGroupModule, ButtonModule, CardModule, CollapseModule, FormModule, GridModule, ModalModule, NavModule, PaginationModule, ProgressModule, TableModule, TabsModule } from '@coreui/angular';
+import { EpreuveRoutingModule } from './epreuve-routing.module';
+import { EpreuveComponent } from './epreuve.component';
+import { AvatarModule, ButtonGroupModule, ButtonModule, CardModule, CollapseModule, FormModule, GridModule, NavModule, PaginationModule, ProgressModule, TableModule, TabsModule } from '@coreui/angular';
 import { IconModule } from '@coreui/icons-angular';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { WidgetsModule } from '../widgets/widgets.module';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { PromotionComponent } from './promotion.component';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 
 @NgModule({
-  declarations: [PromotionComponent],
+  declarations: [EpreuveComponent],
   imports: [
     CommonModule,
-    PromotionRoutingModule,
+    EpreuveRoutingModule,
     CardModule,
     NavModule,
     IconModule,
     TabsModule,
+    CommonModule,
     GridModule,
     ProgressModule,
     ReactiveFormsModule,
@@ -35,8 +35,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     NgxPaginationModule,
     FormsModule,
     ReactiveFormsModule,
-    ModalModule,
-    NgMultiSelectDropDownModule.forRoot(),
   ]
 })
-export class PromotionModule { }
+export class EpreuveModule { }

@@ -73,6 +73,7 @@ export class PromotionComponent{
     this.dropdownSettings = {
       idField: 'id',
       textField: 'firstName',
+      allowSearchFilter: true,
     };
   }
   get f() { return this.searchForm.controls; }
@@ -181,16 +182,18 @@ export class PromotionComponent{
     })
     
     etudiantsId = promoTosave.etudiantsId;
-    promoTosave.etudiantsId = etudiantsId.map( e=> e.id);
+    promoTosave.etudiantsId = etudiantsId.map( e  => e.id);
     console.log(promoTosave)
     this.prmotionService.save(promoTosave).pipe(first()).subscribe({
       next: promo =>{
         this.visible = false;
-        this.searchForm.setValue(
-          {
-            search: [promo.titreProfessionnelTitre]
-          }
-         )
+        this.searchExpression = promo.titreProfessionnelTitre;
+        this.getAllPrmotionList();
+        // this.searchForm.setValue(
+        //   {
+        //     search: [promo.titreProfessionnelTitre]
+        //   }
+        //  )
          this.onSubmit()
       },
       error: err=>{
@@ -230,25 +233,19 @@ export class PromotionComponent{
        this.isModifier = true;
   }
   update(){
+    console.log("klzkdlz")
+    console.log(this.formAddPromo.getRawValue())
     let promoTosave = Object.assign(this.promotion, this.formAddPromo.getRawValue())
-    console.log(promoTosave)
-
     this.prmotionService.update(promoTosave).pipe(first()).subscribe({
-     next: (promo) => {
-  
-       this.visible = false;
-       this.isModifier = false;
-       this.searchForm.setValue(
-        {
-          search: [promo.titreProfessionnelTitre]
-        }
-       )
-       setTimeout(() =>  this.onSubmit(), 500);
-     },
-     error: err => {
-       console.log(err)
-     }
-   })
+      next: promo =>{
+        this.visible = false;
+        this.searchExpression = promo.titreProfessionnelTitre;
+        this.getAllPrmotionList();
+      },
+      error: err=>{
+        console.log(err)
+      }
+    })
   }
   voir(promo : Promotion){
     // this.etudiantModal = etu;

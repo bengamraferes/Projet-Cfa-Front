@@ -1,0 +1,137 @@
+<c-container>
+
+    <h3 class="text-center">
+        Epreuves
+    </h3>
+    <div class="align-items-end">
+        <button (click)="toggleCollapse()" cButton class="mb-3 " color="primary" size="sm">{{visible? 'Annuler' :
+            'Ajouter Epreuve'}}</button>
+        <c-card [ngClass]="'shadow mt-3 mb-3'" [visible]="visible" cCollapse>
+            <c-card-body>
+                <form #customStylesForm="ngForm" [validated]="customStylesValidated" cForm
+                    class="row g-3 needs-validation" [formGroup]="formAddEpreuve" (ngSubmit)=" isModifier? update(): addEpreuve()">
+
+                    <c-col md="6">
+
+                        <label cLabel for="validationCustom01">Titre</label>
+                        <input type="text" id="start" name="trip-start" placeholder="Qcm Java" cFormControl
+                            formControlName="titre" required >
+                        <c-form-feedback [valid]="false">Merci d'ajouter un titre.</c-form-feedback>
+
+                    </c-col>
+                    <c-col md="6">
+
+                        <label cLabel for="validationCustom01">Description</label>
+                        <input type="text" id="start" name="trip-start" placeholder=" Qcm Java" cFormControl
+                            formControlName="description" required >
+                        <c-form-feedback [valid]="false">Merci d'ajouter une Description.</c-form-feedback>
+
+                    </c-col>
+                    <c-col md="6">
+                        <label cLabel for="inputState">Type :</label>
+                        <select required cSelect id="inputState" formControlName="type"
+                            ng-options="item for item in formations" required>
+
+                            <option *ngFor="let t of types" [value]="t">{{t}}</option>
+
+                        </select>
+                        <c-form-feedback [valid]="false">Merci de sélectioner un Type</c-form-feedback>
+                    </c-col>
+                    <c-col md="6">
+                        <label cLabel for="inputState">Titre Professionnel :</label>
+                        <select required cSelect id="inputState" 
+                            ng-options="item for item in formations"
+                           formControlName="titreProfessionnelId"
+                            (ngModelChange)="onChange($event)"
+                            required
+                            >
+                            <option *ngFor="let t of titresProfessionnels" [value]="t.id">{{t.titre}}</option>
+
+                        </select>
+                        <c-form-feedback [valid]="false">Merci de sélectioner un Titre Professionnel</c-form-feedback>
+                        
+                    </c-col>
+                     <c-col md="12">
+                        <label cLabel for="inputState">Bolc de compétence :</label>
+                        <select required cSelect id="inputState" formControlName="blocCompetencesId"
+                            ng-options="item for item in formations" required>
+
+                            <option *ngFor="let b of blocsCompetences" [value]="b.id">{{b.titre}}</option>
+
+                        </select>
+                        <c-form-feedback [valid]="false">Merci de sélectioner un Bloc de compétence</c-form-feedback>
+                    </c-col>
+                    <!-- <c-col md="12">
+                        type
+                        <label cLabel for="inputState">Formation :</label>
+                        <select required cSelect id="inputState" formControlName="formationId"
+                            ng-options="item for item in formations">
+
+                            <option *ngFor="let b of blocCompetences" [value]="b.id">{{b.titre}}</option>
+
+                        </select>
+                        <c-form-feedback [valid]="false">Merci de sélectioner une Formation</c-form-feedback>
+                    </c-col> -->
+                    <c-col xs="12" class="mb-2">
+                        <button cButton   class="me-4" type="submit" color="success">{{isModifier?"Modifier" :
+                            "Ajouter"}}</button>
+
+                        <button (click)="onReset1()" cButton color="secondary">
+                            Réinitialiser
+                        </button>
+                    </c-col>
+                    <c-col xs="12" class="mb-2">
+                    </c-col>
+                </form>
+
+            </c-card-body>
+        </c-card>
+    </div>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+        <c-input-group>
+            <input aria-describedby="button-addon2" aria-label="Recipient's username" cFormControl placeholder="Jean"
+                formControlName="search" />
+            <button cButton color="info" id="button-addon2" type="submit" variant="outline">
+                Recherche
+            </button>
+        </c-input-group>
+    </form>
+    <table [hover]="true" [striped]="true" cTable>
+        <thead>
+            <tr>
+                <th scope="col">Titre</th>
+                <th scope="col">Description </th>
+                <th scope="col">Bloc de compétence </th>
+                <th scope="col">Type </th>
+                <th scope="col" class="text-center">Action</th>
+            </tr>
+        </thead>
+        <tbody *ngIf="epreuves; else noIntervention">
+            <tr
+                *ngFor="let e of epreuves | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+                <td>{{e.titre}} </td>
+                <td>{{e.description}}</td>
+                <td>
+                    {{e.blocCompetencesTitre}}
+                </td>
+                    <td>
+                        {{e.type}}
+                    </td>
+                <td>
+                    <div class="d-flex flex-column  justify-content-start ">
+                        <button cButton class="mb-2 " (click)="modifier(e)" color="dark" size="sm">Modifier</button>
+                        <button cButton  (click)="delete(e.id)" color="danger" size="sm">Supprimer</button>
+                    </div>
+
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ng-template #noIntervention>
+        <span class="text-danger">Aucun Intervention trouvé !</span>
+    </ng-template>
+    <pagination-controls *ngIf="epreuves" (pageChange)="pageChanged($event)" previousLabel="Précédent"
+        nextLabel="Suivant">
+    </pagination-controls>
+
+</c-container>
