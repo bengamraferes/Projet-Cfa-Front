@@ -174,9 +174,8 @@ private generatorSevice: GeneratorService) {
   generer(idPromo : number){
     this.generatorSevice.getBultinEval(idPromo,this.etudiantModal.id).pipe(
       map((result) => {
-               console.log(result);
                
-                    saveAs(result,"nom.pdf")              
+                    saveAs(result,"BultinEval-" +this.etudiantModal.firstName +"-" +this.etudiantModal.lastName+ ".pdf")              
               })
       // getCsvReport(jobId): Observable<Object> {
       //   const header = { Accept: "application/octet-stream" };

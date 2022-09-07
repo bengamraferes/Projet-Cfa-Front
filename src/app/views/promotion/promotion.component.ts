@@ -233,8 +233,7 @@ export class PromotionComponent{
        this.isModifier = true;
   }
   update(){
-    console.log("klzkdlz")
-    console.log(this.formAddPromo.getRawValue())
+   
     let promoTosave = Object.assign(this.promotion, this.formAddPromo.getRawValue())
     this.prmotionService.update(promoTosave).pipe(first()).subscribe({
       next: promo =>{

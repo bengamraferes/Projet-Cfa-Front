@@ -23,7 +23,7 @@ export class EtudiantService {
     
     getAllByPrmoId(promoId: number) {
 
-      return this.httpClient.get<Etudiant[]>(`${environment.apiUrl}/etudiants/promotion}/${promoId}/`,this.httpHeaders);
+      return this.httpClient.get<Etudiant[]>(`${environment.apiUrl}/etudiants/promotion/${promoId}/`,this.httpHeaders);
     }
       findById(id: number) {
         return this.httpClient.get<any>(`${environment.apiUrl}/etudiants/${id}`,this.httpHeaders)

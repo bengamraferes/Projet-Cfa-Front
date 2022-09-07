@@ -44,5 +44,9 @@ export class PromotionService {
         return this.httpClient.put<any>(`${environment.apiUrl}/promotions`, promo, this.httpHeaders)
           .pipe(map(savedPrmo => { return savedPrmo }));
       }
+      findById(id: number) {
+        return this.httpClient.get<any>(`${environment.apiUrl}/promotions/${id}`,this.httpHeaders)
+          .pipe(map(promotionFound => { return promotionFound; }));
+      }
      
 }

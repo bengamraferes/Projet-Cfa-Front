@@ -21,4 +21,9 @@ export class GeneratorService {
 
     return this.httpClient.get<any>(`${environment.apiUrl}/generator/bultinEval/${idEtudiant}/${idPrmotion}`, { responseType:'blob' as 'json' });
   }
+  
+  getGrillePositionnementl(idPrmotion: number) {
+
+    return this.httpClient.get<any>(`${environment.apiUrl}/generator/grillePositionnement/${idPrmotion}`, { responseType:'blob' as 'json' });
+  }
 }

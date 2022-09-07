@@ -1,6 +1,19 @@
 <c-container>
+  <h3>
+    {{promo.titreProfessionnelTitre}} à {{promo.villeNom}}
+  </h3>
+  <h4>
+    Du {{promo.dateDebut | date }} Au {{promo.dateFin | date}}
+  </h4>
+  <c-nav variant="tabs">
+    <a [active]="true" [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="0" cNavLink>Détail</a>
+    <a [cTabContent]="tabContent" [routerLink] [tabPaneIdx]="1" cNavLink>Evaluation</a>
+  </c-nav>
+  <c-tab-content #tabContent="cTabContent">
+    <c-tab-pane class="p-3">
+      <button cButton variant="outline" class="mb-3 mt-3 " (click)="genererGrille()" color="primary" size="lg">Télécharger grille de positionnement</button>
 
-    <table [hover]="true" [striped]="true" cTable>
+      <table [hover]="true" [striped]="true" cTable>
         <thead>
           <tr>
             <th scope="col">Nom</th>
@@ -8,7 +21,7 @@
             <th scope="col">Email</th>
             <th scope="col">Role</th>
             <th scope="col">Active</th>
-            <th scope="col" class="text-center">Action</th>
+            <!-- <th scope="col" class="text-center">Action</th> -->
           </tr>
         </thead>
         <tbody *ngIf="etudiants; else noUsers">
@@ -19,14 +32,15 @@
             <td>{{u.email}}</td>
             <td>{{u.role | titlecase}}</td>
             <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td>
-    
-            <td>
+
+            <!-- <td>
               <div class="d-flex justify-content-around ">
-                <!-- <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
+                 <button cButton class="mb-3 "(click)="modifier(u)" color="dark" size="sm">Modifier</button>
                 <button cButton class="mb-3 " (click)="delete(u.id)" color="danger" size="sm">Supprimer</button>
-                <button cButton class="mb-3 " (mouseenter)="voir(u)" [cModalToggle]="modalXl.id" color="secondary" size="sm">voir</button> --> -->
+                <button cButton class="mb-3 " (mouseenter)="voir(u)" [cModalToggle]="modalXl.id" color="secondary" size="sm">voir</button> 
+               
               </div>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -35,5 +49,92 @@
       </ng-template>
       <!-- <pagination-controls *ngIf="etudiants" (pageChange)="pageChanged($event)" previousLabel="Précédent" nextLabel="Suivant">
       </pagination-controls> -->
+    </c-tab-pane>
+    <c-tab-pane class="p-3">
+      <c-col md="12">
+        <label cLabel for="inputState">Bolc de compétence :</label>
+        <select required cSelect id="inputState" ng-options="item for item in blocsCompetences"
+          ngModel="blocCompSelected" (ngModelChange)="onChange($event)" required>
+
+
+          <option *ngFor="let b of blocsCompetences" [value]="b.id">{{b.titre}}</option>
+
+        </select>
+      </c-col>
+      <c-col md="12" class="mt-4" *ngIf="blocCompSelected != 0">
+        <label cLabel for="inputState">Epreuves :</label>
+        <select required cSelect id="inputState" ngModel="epreuveSelectd" ng-options="item for item in epreuves"
+          (ngModelChange)="onChangeEpreuve($event)">
+          <option *ngFor="let ep of epreuves" [value]="ep.id">{{ep.titre}}</option>
+        </select>
+      </c-col>
+      <c-col md="12" class="mt-4" *ngIf="epreuveSelectd != 0">
+        <table [hover]="true" [striped]="true" cTable>
+          <thead>
+            <tr>
+              <th scope="col">Nom</th>
+              <th scope="col">Prenom</th>
+              <th scope="col">Email</th>
+              <th scope="col">Active</th>
+              <th scope="col" class="text-center">Note</th>
+
+            </tr>
+          </thead>
+          <tbody *ngIf="etudiants; else noUsers">
+            <tr
+              *ngFor="let u of etudiants | paginate: {itemsPerPage:itemsPerPage, currentPage: currentPage, totalItems:totalItems}">
+              <td>{{u.firstName}} </td>
+              <td>{{u.lastName}}</td>
+              <td>{{u.email}}</td>
+              <td [ngClass]="u.active ? 'text-success' :'text-danger'">{{u.active | yesNo }}</td>
+
+              <td class="w-25">
+
+                <div *ngIf=" u.notesByEpreuve.has(epreuveSelectd) ; else noEvaluation">
+                  <div *ngIf=" u.modifier ; else noModif">
+                    <form #customStylesForm="ngForm" cForm [formGroup]="formEvaluation"
+                      class="d-flex justify-content-around" (ngSubmit)="update(u)">
+                      <input  type="number" formControlName="note"
+                      value="{{u.notesByEpreuve.get(epreuveSelectd)?.note}}" step="0.5" min="0" max="20"
+                        class="text-center w-25 m-2">
+                      <input type="hidden" formControlName="id" value="{{u.notesByEpreuve.get(epreuveSelectd)?.id}}">
+                      <!-- <div *ngIf=" u.notesByEpreuve.has(epreuveSelectd); else noEvaluationAjoute"> -->
+                      <div class="d-flex justify-content-around">
+                        <button cButton class="m-2" color="primary" size="sm" type="submit">Modifier</button>
+                        <button cButton class="m-2 " (click)="annuler(u.id)" color="warning" size="sm">Annuler</button>
+                      </div>
+
+                    </form>
+                  </div>
+                  <ng-template #noModif>
+                    <div class="d-flex justify-content-around">
+                      {{u.notesByEpreuve.get(epreuveSelectd)?.note}}
+                      <button cButton class="mb-3 " (click)="modifier(u.id)" color="primary" size="sm">Modifier</button>
+                    </div>
+                  </ng-template>
+                </div>
+                <ng-template #noEvaluation>
+
+                  <form #customStylesForm="ngForm" cForm [formGroup]="formEvaluation"
+                    class="d-flex justify-content-around" (ngSubmit)="ajouter(u)">
+                  
+                    <input  type="number" formControlName="note"
+                      value="{{u.notesByEpreuve.get(epreuveSelectd)?.note}}" min="0" max="20"
+                      class="text-center w-25 m-2">
+                    <button cButton class="m-2" color="dark" size="sm" type="submit">Ajouter</button>
+                  </form>
+                </ng-template>
+
+               
+
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </c-col>
+    </c-tab-pane>
+
+  </c-tab-content>
+
 
 </c-container>

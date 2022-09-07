@@ -26,11 +26,13 @@ export class EpreuveService {
 
         return this.httpClient.get<Epreuve[]>(`${environment.apiUrl}/epreuves`,this.httpHeaders);
       }
+      getByBlocDeCompetences(id : number) {
+
+        return this.httpClient.get<Epreuve[]>(`${environment.apiUrl}/epreuves/blocCompetences/${id}`,this.httpHeaders);
+      }
       countEpreuve(search: string) {
         return this.httpClient.get<Count>(`${environment.apiUrl}/epreuves/count/${search}`);
       }
-  
-    
       delete(id: number) {
         return this.httpClient.delete<void>(`${environment.apiUrl}/epreuves/${id}`,this.httpHeaders)
       }
