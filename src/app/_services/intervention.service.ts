@@ -29,7 +29,10 @@ export class InterventionService {
       delete(id: number) {
         return this.httpClient.delete<void>(`${environment.apiUrl}/interventions/${id}`,this.httpHeaders).pipe(map(deleteI => { return deleteI }));
       }
-    
+      findById(id: number) {
+        return this.httpClient.get<any>(`${environment.apiUrl}/interventions/${id}`,this.httpHeaders)
+          .pipe(map(IFound => { return IFound; }));
+      }
       save(intervention: Intervention) {
         return this.httpClient.post<any>(`${environment.apiUrl}/interventions`, intervention, this.httpHeaders)
           .pipe(map(savedIntervention => { return savedIntervention }));

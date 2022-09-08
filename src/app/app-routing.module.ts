@@ -63,6 +63,12 @@ const routes: Routes = [
         
       },
       {
+        path:'detailIntervention/:idIntervention',
+      loadChildren: ( ) => 
+        import('./views/intervention-detail/intervention-detail.module').then((m)=>m.InterventionDetailModule)
+        
+      },
+      {
         path:'ville',
       loadChildren: ( ) => 
         import('./views/ville/ville.module').then((m)=>m.VilleModule )
